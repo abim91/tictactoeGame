@@ -7,7 +7,7 @@ using namespace std;
 void printArray(char** arr, int rows, int col);
 bool checkCol(char** arr, char a, int col);
 bool checkRow(char** arr, char a, int row);
-bool checkDiag(char** arr, char a);
+bool checkDiag(char** arr, char a, int size);
 bool checkWin(char** arr, char user, int row, int col);
 
 int main()
@@ -41,13 +41,13 @@ int main()
     cin >> u2Row >> u2Col;
     grid[u2Row][u2Col] = 'O';
     printArray(grid, 3, 3);
-
+    //checkRow(grid, currentPlayer, 3) || checkCol(grid, currentPlayer, 3)
     bool gameOn = true;
     while (gameOn) {
         cout << "User X select Enter row and column ";
         cin >> u1Row >> u1Col;
         grid[u1Row][u1Col] = 'X';
-        if (checkRow(grid, currentPlayer, 3) || checkCol(grid, currentPlayer, 3)) {
+        if (checkDiag(grid, currentPlayer, 3)) {
             gameOn = false;
             cout << "game is over " << currentPlayer << " won" << endl;
         }
@@ -64,7 +64,7 @@ int main()
         grid[u2Row][u2Col] = 'O';
         printArray(grid, 3, 3);
 
-        if (checkRow(grid, currentPlayer, 3)) {
+        if (checkDiag(grid, currentPlayer, 3)) {
             gameOn = false;
             cout << "game is over " << currentPlayer << " won" << endl;
         }
@@ -117,14 +117,18 @@ bool checkRow(char** arr, char a, int row) {
     }
     return false;
 }
-bool checkDiag(char** arr, char a) {
-    if ((arr[0][0] == a && arr[1][1] == a && arr[2][2] == a) || (arr[0][2] == a && arr[1][1] == a && arr[2][0] == a))
+bool checkDiag(char** arr, char a, int size) {
+    char answer[3] = {0,0,0};
+    for (int i = 0; i < size; i++) {
+        answer[i] = arr[i][i];
+    }
+    if (answer[0] == a && answer[1] == a && answer[2] == a)
         return true;
     return false;
 }
 
 bool checkWin(char** arr, char user, int row, int col) {
-    if ((checkCol(arr, user, col) || checkRow(arr, user, row) || checkDiag(arr, user))) {
+    if ((checkCol(arr, user, col) || checkRow(arr, user, row) || checkDiag(arr, user, row))) {
         return true;
     }
     return false;
