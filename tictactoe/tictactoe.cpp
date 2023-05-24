@@ -8,7 +8,7 @@ void printArray(char** arr, int rows, int col);
 bool checkCol(char** arr, char a, int col);
 bool checkRow(char** arr, char a, int row);
 bool checkDiag(char** arr, char a);
-bool checkWin(char** arr, char user, int row , int col);
+bool checkWin(char** arr, char user, int row, int col);
 
 int main()
 {
@@ -17,8 +17,8 @@ int main()
     int u1Row = 0, u2Row = 0, u1Col = 0, u2Col = 0;
     char currentPlayer = 'X';
     //grid
-   
-    char** grid = new char*[3];
+
+    char** grid = new char* [3];
     for (int i = 0; i < 3; i++) {
         grid[i] = new char[3];
     }
@@ -33,7 +33,7 @@ int main()
     grid[2][2] = 'i';
 
     //Asking user
-    cout << "User X select Enter row and column " ;
+    cout << "User X select Enter row and column ";
     cin >> u1Row >> u1Col;
     grid[u1Row][u1Col] = 'X';
     printArray(grid, 3, 3);
@@ -42,19 +42,13 @@ int main()
     grid[u2Row][u2Col] = 'O';
     printArray(grid, 3, 3);
 
-    bool gameOver = true;
-    while (gameOver) {
+    bool gameOn = true;
+    while (gameOn) {
         cout << "User X select Enter row and column ";
         cin >> u1Row >> u1Col;
         grid[u1Row][u1Col] = 'X';
-        
-        cout << "User O select Enter row and column ";
-        cin >> u2Row >> u2Col;
-        grid[u2Row][u2Col] = 'O';
-        printArray(grid, 3, 3);
-        
-        if (checkCol(grid,currentPlayer,3)) {
-            gameOver = false;
+        if (checkRow(grid, currentPlayer, 3) || checkCol(grid, currentPlayer, 3)) {
+            gameOn = false;
             cout << "game is over " << currentPlayer << " won" << endl;
         }
         else {
@@ -65,12 +59,29 @@ int main()
                 currentPlayer = 'X';
             }
         }
-    
-    }
-   //testing 
-   
+        cout << "User O select Enter row and column ";
+        cin >> u2Row >> u2Col;
+        grid[u2Row][u2Col] = 'O';
+        printArray(grid, 3, 3);
 
-    
+        if (checkRow(grid, currentPlayer, 3)) {
+            gameOn = false;
+            cout << "game is over " << currentPlayer << " won" << endl;
+        }
+        else {
+            if (currentPlayer == 'X') {
+                currentPlayer = 'O';
+            }
+            else {
+                currentPlayer = 'X';
+            }
+        }
+
+    }
+    //testing 
+
+
+
 }
 
 void printArray(char** arr, int rows, int col) {
@@ -83,9 +94,9 @@ void printArray(char** arr, int rows, int col) {
 
 }
 bool checkCol(char** arr, char a, int col) {
-    char answer[3] = { 0,0,0 };
     int row = col;
     for (int i = 0; i < col; i++) {
+        char answer[3] = { 0,0,0 };
         for (int j = 0; j < row; j++) {
             answer[j] = arr[j][i];
         }
@@ -95,8 +106,13 @@ bool checkCol(char** arr, char a, int col) {
     return false;
 }
 bool checkRow(char** arr, char a, int row) {
+    int col = row;
     for (int i = 0; i < row; i++) {
-        if (arr[i][0] == a && arr[i][1] == a && arr[i][2] == a)
+        char answer[3] = { 0,0,0 };
+        for (int j = 0; j < col; j++) {
+            answer[j] = arr[i][j];
+        }
+        if (answer[0] == a && answer[1] == a && answer[2] == a)
             return true;
     }
     return false;
@@ -123,4 +139,4 @@ bool checkWin(char** arr, char user, int row, int col) {
 //   3. Use the Output window to see build output and other messages
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file 
