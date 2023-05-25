@@ -13,11 +13,10 @@ bool checkWin(char** arr, char user, int row, int col);
 int main()
 {
     // variables 
-  //  int row = 3, col = 3;
     int u1Row = 0, u2Row = 0, u1Col = 0, u2Col = 0;
     char currentPlayer = 'X';
-    //grid
-
+   
+    //Create Dynamic Arrays
     char** grid = new char* [3];
     for (int i = 0; i < 3; i++) {
         grid[i] = new char[3];
@@ -32,9 +31,9 @@ int main()
     grid[2][1] = 'i';
     grid[2][2] = 'i';
 
-    //Asking user
+    
  
-  
+  //Starts the actual game
     bool gameOn = true;
     while (gameOn) {
         cout << "User X select Enter row and column ";
@@ -96,6 +95,7 @@ int main()
 }
 
 void printArray(char** arr, int rows, int col) {
+    //prints the whole 2-d array
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < col; j++) {
             cout << arr[i][j] << " ";
@@ -104,6 +104,7 @@ void printArray(char** arr, int rows, int col) {
     }
 
 }
+// helper functions to check if anyone has won
 bool checkCol(char** arr, char a, int col) {
     int row = col;
     for (int i = 0; i < col; i++) {
@@ -141,7 +142,7 @@ bool checkDiag(char** arr, char a, int size) {
 
     return false;
 }
-
+// main function to judge who won
 bool checkWin(char** arr, char user, int row, int col) {
     if ((checkCol(arr, user, col) || checkRow(arr, user, row) || checkDiag(arr, user, row))) {
         return true;
@@ -149,13 +150,3 @@ bool checkWin(char** arr, char user, int row, int col) {
     return false;
 
 }
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file 
