@@ -33,40 +33,25 @@ int main()
     grid[2][2] = 'i';
 
     //Asking user
-    cout << "User X select Enter row and column ";
-    cin >> u1Row >> u1Col;
-    grid[u1Row][u1Col] = 'X';
-    printArray(grid, 3, 3);
-    cout << "User O select Enter row and column ";
-    cin >> u2Row >> u2Col;
-    grid[u2Row][u2Col] = 'O';
-    printArray(grid, 3, 3);
-    //checkRow(grid, currentPlayer, 3) || checkCol(grid, currentPlayer, 3)
+ 
+  
     bool gameOn = true;
     while (gameOn) {
         cout << "User X select Enter row and column ";
         cin >> u1Row >> u1Col;
+        //Make sures the user do not write over previously selected block
+        while (grid[u1Row][u1Col] == 'O') {
+            cout << "This block is taken, choose another one" << endl;
+            cout << "User X select Enter row and column ";
+            cin >> u1Row >> u1Col;
+        }
         grid[u1Row][u1Col] = 'X';
-        if (checkDiag(grid, currentPlayer, 3)) {
-            gameOn = false;
-            cout << "game is over " << currentPlayer << " won" << endl;
-        }
-        else {
-            if (currentPlayer == 'X') {
-                currentPlayer = 'O';
-            }
-            else {
-                currentPlayer = 'X';
-            }
-        }
-        cout << "User O select Enter row and column ";
-        cin >> u2Row >> u2Col;
-        grid[u2Row][u2Col] = 'O';
         printArray(grid, 3, 3);
-
-        if (checkDiag(grid, currentPlayer, 3)) {
-            gameOn = false;
+        if (checkWin(grid, currentPlayer, 3, 3)) {
             cout << "game is over " << currentPlayer << " won" << endl;
+            gameOn = false;
+
+            
         }
         else {
             if (currentPlayer == 'X') {
@@ -75,10 +60,36 @@ int main()
             else {
                 currentPlayer = 'X';
             }
+
+            cout << "User O select Enter row and column ";
+            cin >> u2Row >> u2Col;
+            //Make sures the user do not write over previously selected block
+            while (grid[u2Row][u2Col] == 'X') {
+                cout << "This block is taken, choose another one" << endl;
+                cout << "User O Enter row and column ";
+                cin >> u2Row >> u2Col;
+            }
+
+            grid[u2Row][u2Col] = 'O';
+            printArray(grid, 3, 3);
+
+            if (checkWin(grid, currentPlayer, 3, 3)) {
+                gameOn = false;
+                cout << "game is over " << currentPlayer << " won" << endl;
+            }
+            else {
+                if (currentPlayer == 'X') {
+                    currentPlayer = 'O';
+                }
+                else {
+                    currentPlayer = 'X';
+                }
+            }
         }
+        
 
     }
-    //testing 
+    
 
 
 
@@ -118,12 +129,16 @@ bool checkRow(char** arr, char a, int row) {
     return false;
 }
 bool checkDiag(char** arr, char a, int size) {
-    char answer[3] = {0,0,0};
+    char answerMD[3] = {0,0,0};
+    char answerSD[3] = { 0,0,0 };
+    // checking the main diagonal
     for (int i = 0; i < size; i++) {
-        answer[i] = arr[i][i];
+        answerMD[i] = arr[i][i];
+        answerSD[i] = arr[i][size-(i+1)];
     }
-    if (answer[0] == a && answer[1] == a && answer[2] == a)
+    if ((answerMD[0] == a && answerMD[1] == a && answerMD[2] == a) || (answerSD[0] == a && answerSD[1] == a && answerSD[2] == a))
         return true;
+
     return false;
 }
 
